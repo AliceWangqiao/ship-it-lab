@@ -42,18 +42,15 @@ resource "google_cloud_run_v2_service" "app" {
 }
 
 # -------------------------
-
-# -------------------------
-# Cloud Build Trigger (FIXED v2 format)
+# Cloud Build Trigger (LEGACY GitHub - THIS FIXES YOUR 400 ERROR)
 # -------------------------
 resource "google_cloudbuild_trigger" "main" {
   name     = "ship-it-on-push"
   location = "us-central1"
 
   github {
-	owner = var.gh_owner
-	name = var.gh_repo
-
+    owner = var.gh_owner
+    name  = "ship-it-lab"
 
     push {
       branch = "^main$"
@@ -61,5 +58,4 @@ resource "google_cloudbuild_trigger" "main" {
   }
 
   filename = "cloudbuild.yaml"
-
 }
