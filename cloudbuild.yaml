@@ -12,15 +12,14 @@ steps:
   args:
     - build
     - '-t'
-    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:latest'
+    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA'
     - '.'
-
 
 # 3) Push to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - push
-    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:latest'
+    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA'
 
 # 4) Deploy to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -30,7 +29,7 @@ steps:
     - deploy
     - ship-it
     - '--image'
-    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:latest'
+    - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA'
     - '--region'
     - '${_REGION}'
     - '--allow-unauthenticated'
